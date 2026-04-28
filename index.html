@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hirbi Pro | Institutional Arbitrage Node</title>
+    <title>Hiribi Pro | Institutional Arbitrage Node</title>
     
     <!-- Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
@@ -147,7 +147,7 @@
 <div class="neon-bg"></div>
 
 <nav class="navbar">
-    <div class="logo">HIRBI PRO</div>
+    <div class="logo">HIRiBI PRO</div>
     <button class="btn-connect" onclick="connectWallet()" id="connectBtn">
         <i class="fas fa-wallet"></i> CONNECT WALLET
     </button>
@@ -159,7 +159,7 @@
         <h1>Decentralized <span style="color:var(--pink)">Arbitrage</span> Node</h1>
         <p>
             Operating since 2017 (Formerly <b>Hiribi.com</b>), we have transitioned to institutional-grade blockchain arbitrage. 
-            Hirbi Pro nodes execute high-frequency trades across global markets with a <b>0.1%-0.5% profit spread</b>. 
+            Hiribi Pro nodes execute high-frequency trades across global markets with a <b>0.1%-0.5% profit spread</b>. 
             Transparent, Instant, and Securely governed by USDT Smart Contracts.
         </p>
         
@@ -232,8 +232,8 @@
 
 <footer>
     <i class="fas fa-shield-alt" style="margin-bottom:10px; font-size: 20px;"></i><br>
-    SECURED BY HIRBI PRO SMART ENGINE <br>
-    COPYRIGHT &copy; 2017 - 2027 HIRBI PRO. ALL RIGHTS RESERVED.
+    SECURED BY HIRIBI PRO SMART ENGINE <br>
+    COPYRIGHT &copy; 2017 - 2027 HIRIBI PRO. ALL RIGHTS RESERVED.
 </footer>
 
 <script>
@@ -241,7 +241,7 @@
     const contractAddress = "0x27cbe92EbEf8B09A1eeBA4a561f651eB33845758";
     const usdtAddress = "0x55d398326f99059fF775485246999027B3197955";
     
-    const abi = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[{"internalType":"uint256","name":"_amount","type":"uint256"}],"name":"adminEmergencyWithdraw","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"adminWallet","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getInvestmentDetails","outputs":[{"components":[{"internalType":"uint256","name":"planId","type":"uint256"},{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"uint256","name":"endTime","type":"uint256"},{"internalType":"uint256","name":"totalReturn","type":"uint256"},{"internalType":"bool","name":"withdrawn","type":"bool"}],"internalType":"struct HirbiPro.Investment[]","name":"","type":"tuple[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_planId","type":"uint256"},{"internalType":"uint256","name":"_amount","type":"uint256"},{"internalType":"address","name":"_referrer","type":"address"}],"name":"invest","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"plans","outputs":[{"internalType":"uint256","name":"duration","type":"uint256"},{"internalType":"uint256","name":"profitPercent","type":"uint256"},{"internalType":"uint256","name":"refPercent","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"usdtToken","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"users","outputs":[{"internalType":"address","name":"referrer","type":"address"},{"internalType":"uint256","name":"totalRefIncome","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_invIndex","type":"uint256"}],"name":"withdraw","outputs":[],"stateMutability":"nonpayable","type":"function"}];
+    const abi = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[{"internalType":"uint256","name":"_amount","type":"uint256"}],"name":"adminEmergencyWithdraw","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"adminWallet","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getInvestmentDetails","outputs":[{"components":[{"internalType":"uint256","name":"planId","type":"uint256"},{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"uint256","name":"endTime","type":"uint256"},{"internalType":"uint256","name":"totalReturn","type":"uint256"},{"internalType":"bool","name":"withdrawn","type":"bool"}],"internalType":"struct HiribiPro.Investment[]","name":"","type":"tuple[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_planId","type":"uint256"},{"internalType":"uint256","name":"_amount","type":"uint256"},{"internalType":"address","name":"_referrer","type":"address"}],"name":"invest","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"plans","outputs":[{"internalType":"uint256","name":"duration","type":"uint256"},{"internalType":"uint256","name":"profitPercent","type":"uint256"},{"internalType":"uint256","name":"refPercent","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"usdtToken","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"users","outputs":[{"internalType":"address","name":"referrer","type":"address"},{"internalType":"uint256","name":"totalRefIncome","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_invIndex","type":"uint256"}],"name":"withdraw","outputs":[],"stateMutability":"nonpayable","type":"function"}];
     const usdtAbi = ["function approve(address spender, uint256 amount) public returns (bool)", "function balanceOf(address a) public view returns (uint256)"];
     
     const planNames = ["GENESIS TRADE", "QUANTUM TRADE"];
