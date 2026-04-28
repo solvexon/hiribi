@@ -3,428 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hirbi Pro | Premium Arbitrage Trading</title>
-    
-    <!-- External Libraries -->
+    <title>Hirbi Pro | Performance Dashboard</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
     <style>
-        :root {
-            --bg: #050505;
-            --pink: #ff007a;
-            --orange: #ff8c00;
-            --gold: #ffd700;
-            --card: #0f0f0f;
-            --text-glow: 0 0 10px rgba(255, 0, 122, 0.5);
-        }
+        :root { --bg: #050505; --pink: #ff007a; --orange: #ff8c00; --gold: #ffd700; --card: #0f0f0f; }
+        body { margin: 0; background-color: var(--bg); color: #fff; font-family: 'Poppins', sans-serif; }
 
-        body {
-            margin: 0;
-            background-color: var(--bg);
-            color: #fff;
-            font-family: 'Poppins', sans-serif;
-            overflow-x: hidden;
-        }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: rgba(0,0,0,0.9); border-bottom: 1px solid #1a1a1a; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: bold; background: linear-gradient(45deg, var(--pink), var(--orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .btn-connect { background: linear-gradient(45deg, var(--pink), var(--orange)); border: none; color: white; padding: 10px 22px; border-radius: 50px; cursor: pointer; font-family: 'Orbitron'; font-size: 13px; }
 
-        /* Neon Glow Background */
-        .neon-glow {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 10% 20%, rgba(255, 0, 122, 0.05), transparent 40%),
-                        radial-gradient(circle at 90% 80%, rgba(255, 140, 0, 0.05), transparent 40%);
-            z-index: -1;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 5%;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            position: sticky; top: 0; z-index: 1000;
-        }
-
-        .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 24px;
-            font-weight: bold;
-            background: linear-gradient(45deg, var(--pink), var(--orange));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: var(--text-glow);
-        }
-
-        .btn-connect {
-            background: linear-gradient(45deg, var(--pink), var(--orange));
-            border: none;
-            color: white;
-            padding: 10px 22px;
-            border-radius: 50px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(255, 0, 122, 0.4);
-            font-family: 'Orbitron';
-            font-size: 13px;
-        }
-
-        .hero {
-            padding: 60px 8% 40px;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(28px, 6vw, 55px);
-            margin-bottom: 25px;
-            background: linear-gradient(to right, #fff, #888);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .about-box {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid #1a1a1a;
-            padding: 30px;
-            border-radius: 20px;
-            max-width: 900px;
-            margin: 0 auto 35px;
-            line-height: 1.8;
-            color: #aaa;
-            font-size: 15px;
-        }
-
-        .about-box b { color: var(--gold); }
-
-        .trading-stats {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-bottom: 40px;
-        }
-
-        .stat-item {
-            background: rgba(255, 140, 0, 0.05);
-            border: 1px solid var(--orange);
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-size: 13px;
-            color: var(--orange);
-            font-weight: 600;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-            padding: 0 8% 60px;
-        }
-
-        .plan-card {
-            background: var(--card);
-            border-radius: 25px;
-            padding: 40px 30px;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.03);
-            transition: 0.4s ease;
-        }
-
-        .plan-card:hover {
-            border-color: var(--pink);
-            transform: translateY(-8px);
-            box-shadow: 0 0 25px rgba(255, 0, 122, 0.2);
-        }
-
-        .plan-card h3 { font-family: 'Orbitron'; color: var(--gold); letter-spacing: 1px; }
-        .plan-card .roi { font-size: 48px; font-weight: 700; margin: 15px 0; font-family: 'Orbitron'; color: #fff; }
+        .container { padding: 30px 5%; }
         
-        .input-box {
-            width: 100%;
-            background: #000;
-            border: 1px solid #222;
-            padding: 15px;
-            border-radius: 12px;
-            color: #fff;
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 18px;
-        }
+        /* Stats Styling */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .stat-card { background: var(--card); border-radius: 15px; padding: 20px; border: 1px solid #222; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .stat-card i { font-size: 24px; color: var(--gold); margin-bottom: 10px; }
+        .stat-card h4 { margin: 5px 0; color: #888; font-size: 12px; font-family: 'Orbitron'; }
+        .stat-card .val { font-size: 22px; font-weight: bold; color: #fff; font-family: 'Orbitron'; }
 
-        .btn-invest {
-            width: 100%;
-            padding: 18px;
-            border-radius: 12px;
-            border: none;
-            background: linear-gradient(45deg, var(--orange), var(--pink));
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            font-family: 'Orbitron';
-            letter-spacing: 1px;
-            font-size: 16px;
-        }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-bottom: 50px; }
+        .plan-card { background: var(--card); border-radius: 20px; padding: 30px; border: 1px solid #222; transition: 0.3s; }
+        .plan-card:hover { border-color: var(--pink); transform: translateY(-5px); }
+        .plan-card h3 { font-family: 'Orbitron'; color: var(--gold); }
+        .plan-card .roi { font-size: 40px; font-weight: 700; margin: 10px 0; color: #fff; font-family: 'Orbitron'; }
+        
+        .input-box { width: 100%; background: #000; border: 1px solid #333; padding: 12px; border-radius: 10px; color: #fff; margin-bottom: 15px; text-align: center; font-size: 16px; }
+        .btn-invest { width: 100%; padding: 15px; border-radius: 10px; border: none; background: linear-gradient(45deg, var(--orange), var(--pink)); color: white; font-weight: bold; cursor: pointer; font-family: 'Orbitron'; }
 
-        .dashboard {
-            margin: 0 8% 60px;
-            padding: 40px;
-            background: #080808;
-            border-radius: 30px;
-            border: 1px dashed rgba(255,255,255,0.1);
-        }
-
-        .live-counter {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 26px;
-            color: #00ffcc;
-            margin: 15px 0;
-            text-shadow: 0 0 10px rgba(0,255,204,0.3);
-        }
-
-        .ref-section {
-            background: rgba(255, 215, 0, 0.05);
-            border: 1px solid var(--gold);
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            text-align: left;
-        }
-
-        .copy-btn {
-            background: var(--gold);
-            color: #000;
-            border: none;
-            padding: 6px 15px;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-left: 10px;
-            font-size: 12px;
-        }
-
-        @media (max-width: 768px) {
-            .navbar { padding: 15px 4%; }
-            .hero { padding: 40px 4%; }
-            .grid { padding: 0 4% 40px; }
-            .dashboard { margin: 0 4% 50px; padding: 25px; }
-        }
+        .dashboard-box { background: #080808; border-radius: 25px; padding: 30px; border: 1px dashed #333; }
+        .live-counter { font-family: 'Orbitron'; font-size: 24px; color: #00ffcc; margin: 10px 0; text-shadow: 0 0 10px rgba(0,255,204,0.2); }
+        
+        .withdrawn-tag { background: #222; color: #666; padding: 5px 10px; border-radius: 5px; font-size: 11px; font-family: 'Orbitron'; }
     </style>
 </head>
 <body>
 
-<div class="neon-glow"></div>
-
 <nav class="navbar">
     <div class="logo">HIRBI PRO</div>
-    <button class="btn-connect" onclick="connectWallet()" id="connectBtn">
-        <i class="fas fa-wallet"></i> CONNECT WALLET
-    </button>
+    <button class="btn-connect" onclick="connectWallet()" id="connectBtn">CONNECT WALLET</button>
 </nav>
 
-<section class="hero">
-    <h1>Institutional Arbitrage</h1>
+<div class="container">
     
-    <div class="about-box">
-        Built upon the legacy of <b>Hiribi.com</b>, we have transitioned from traditional PayPal trading to 
-        decentralized <b>USDT settlements</b>. Hirbi Pro leverages high-frequency broker nodes to capture 
-        <b>0.1% to 0.5% profit</b> on every micro-spread. Your capital is put to work through professional 
-        arbitrage sessions with zero central delays.
-    </div>
-
-    <div class="trading-stats">
-        <div class="stat-item"><i class="fab fa-paypal"></i> PayPal Verify Engine</div>
-        <div class="stat-item"><i class="fas fa-bolt"></i> 0.5% Per Transaction</div>
-        <div class="stat-item"><i class="fas fa-lock"></i> USDT Smart Secured</div>
-    </div>
-</section>
-
-<div class="grid">
-    <!-- Referral System -->
-    <div style="grid-column: 1 / -1;" class="ref-section">
-        <p style="margin:0; font-size: 13px; color: var(--gold); font-weight: bold;">MY REFERRAL LINK</p>
-        <div style="display: flex; align-items: center; margin-top: 10px; background: rgba(0,0,0,0.4); padding: 10px; border-radius: 8px;">
-            <input type="text" id="refLinkDisplay" style="flex:1; background:transparent; border:none; color:#fff; font-size:13px;" readonly placeholder="Connect wallet to see your link">
-            <button class="copy-btn" onclick="copyRef()">COPY</button>
+    <!-- User Statistics Overview -->
+    <div class="stats-grid" id="userStats" style="display:none;">
+        <div class="stat-card">
+            <i class="fas fa-hand-holding-usd"></i>
+            <h4>TOTAL INVESTED</h4>
+            <div class="val" id="totalInvested">0.00</div>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-wallet"></i>
+            <h4>TOTAL WITHDRAWN</h4>
+            <div class="val" id="totalWithdrawn">0.00</div>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-chart-line"></i>
+            <h4>TOTAL PROFIT</h4>
+            <div class="val" id="totalProfit" style="color:#28a745;">0.00</div>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-clock"></i>
+            <h4>ACTIVE SESSIONS</h4>
+            <div class="val" id="activeCount">0</div>
         </div>
     </div>
 
-    <!-- Referral Input (Auto-filled by URL) -->
-    <div style="grid-column: 1 / -1;">
-        <input type="text" id="referrerInput" class="input-box" style="font-size: 14px;" placeholder="Referrer Address (Auto-filled if using a link)">
+    <div class="grid">
+        <!-- Plan 1 -->
+        <div class="plan-card">
+            <h3>30 DAYS PLAN</h3>
+            <p style="color:#555; font-size: 12px;">(Testing: 30 Minutes)</p>
+            <div class="roi">18% ROI</div>
+            <p style="color:var(--gold); font-size: 13px;">Referral Bonus: 7%</p>
+            <input type="number" id="amt0" class="input-box" placeholder="Amount USDT">
+            <button class="btn-invest" onclick="invest(0)">START SESSION</button>
+        </div>
+
+        <!-- Plan 2 -->
+        <div class="plan-card">
+            <h3>60 DAYS PLAN</h3>
+            <p style="color:#555; font-size: 12px;">(Testing: 60 Minutes)</p>
+            <div class="roi">50% ROI</div>
+            <p style="color:var(--gold); font-size: 13px;">Referral Bonus: 10%</p>
+            <input type="number" id="amt1" class="input-box" placeholder="Amount USDT">
+            <button class="btn-invest" onclick="invest(1)">START SESSION</button>
+        </div>
     </div>
 
-    <!-- Plan 1 -->
-    <div class="plan-card">
-        <h3>30 DAYS PLAN</h3>
-        <p style="color:#666; font-size: 13px;">(Testing Mode: 30 Minutes)</p>
-        <div class="roi">18% ROI</div>
-        <p style="color:var(--gold); font-weight: 500;">Direct Referral: 7% Reward</p>
-        <input type="number" id="amt0" class="input-box" placeholder="0.00 USDT">
-        <button class="btn-invest" onclick="invest(0)">START SESSION</button>
-    </div>
-
-    <!-- Plan 2 -->
-    <div class="plan-card">
-        <h3>60 DAYS PLAN</h3>
-        <p style="color:#666; font-size: 13px;">(Testing Mode: 60 Minutes)</p>
-        <div class="roi">50% ROI</div>
-        <p style="color:var(--gold); font-weight: 500;">Direct Referral: 10% Reward</p>
-        <input type="number" id="amt1" class="input-box" placeholder="0.00 USDT">
-        <button class="btn-invest" onclick="invest(1)">START SESSION</button>
-    </div>
-</div>
-
-<div class="dashboard">
-    <h2 style="text-align: center; font-family: 'Orbitron'; color: var(--gold); margin-bottom: 30px;">TRADING DASHBOARD</h2>
-    <div id="investmentsList">
-        <p style="text-align: center; color: #444; font-size: 14px;">Connect your wallet to monitor live trading sessions.</p>
+    <div class="dashboard-box">
+        <h2 style="text-align: center; font-family: 'Orbitron'; color: var(--gold); margin-bottom: 25px;">INVESTMENT DETAILS</h2>
+        <div id="investmentsList">
+            <p style="text-align: center; color: #444;">Please connect your wallet.</p>
+        </div>
     </div>
 </div>
 
 <script>
     let signer;
-    const contractAddress = "0x8497a2a1aeD3EB6688683f363a933aaecA4daB4a";
+    const contractAddress = "0x8497a2a1aeD3EB6688683f363a933aaecA4daB4a"; 
     const usdtAddress = "0x2AEF42da66D2ef5C88C45953d6FDDc25DE23dd23";
     
-    const abi = [{"inputs":[{"internalType":"uint256","name":"_planId","type":"uint256"},{"internalType":"uint256","name":"_amount","type":"uint256"},{"internalType":"address","name":"_referrer","type":"address"}],"name":"invest","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[{"internalType":"uint256","name":"_invIndex","type":"uint256"}],"name":"withdraw","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"adminWallet","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getInvestmentDetails","outputs":[{"components":[{"internalType":"uint256","name":"planId","type":"uint256"},{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"uint256","name":"endTime","type":"uint256"},{"internalType":"uint256","name":"totalReturn","type":"uint256"},{"internalType":"bool","name":"withdrawn","type":"bool"}],"internalType":"struct HirbiPro.Investment[]","name":"","type":"tuple[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"plans","outputs":[{"internalType":"uint256","name":"duration","type":"uint256"},{"internalType":"uint256","name":"profitPercent","type":"uint256"},{"internalType":"uint256","name":"refPercent","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"usdtToken","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"users","outputs":[{"internalType":"address","name":"referrer","type":"address"},{"internalType":"uint256","name":"totalRefIncome","type":"uint256"}],"stateMutability":"view","type":"function"}];
-    const usdtAbi = [
-        "function approve(address spender, uint256 amount) public returns (bool)",
-        "function balanceOf(address account) public view returns (uint256)"
-    ];
-
-    // Referral Logic
-    window.onload = () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const ref = urlParams.get('ref');
-        if (ref) {
-            document.getElementById('referrerInput').value = ref;
-            document.getElementById('referrerInput').readOnly = true;
-        }
-    };
+    const abi = [{"inputs":[{"internalType":"uint256","name":"_planId","type":"uint256"},{"internalType":"uint256","name":"_amount","type":"uint256"},{"internalType":"address","name":"_referrer","type":"address"}],"name":"invest","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[{"internalType":"uint256","name":"_invIndex","type":"uint256"}],"name":"withdraw","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getInvestmentDetails","outputs":[{"components":[{"internalType":"uint256","name":"planId","type":"uint256"},{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"uint256","name":"endTime","type":"uint256"},{"internalType":"uint256","name":"totalReturn","type":"uint256"},{"internalType":"bool","name":"withdrawn","type":"bool"}],"internalType":"struct HirbiPro.Investment[]","name":"","type":"tuple[]"}],"stateMutability":"view","type":"function"}];
+    const usdtAbi = ["function approve(address spender, uint256 amount) public returns (bool)", "function balanceOf(address account) public view returns (uint256)"];
 
     async function connectWallet() {
         if (window.ethereum) {
-            try {
-                const provider = new ethers.providers.Web3Provider(window.ethereum);
-                await provider.send("eth_requestAccounts", []);
-                signer = provider.getSigner();
-                const addr = await signer.getAddress();
-                document.getElementById("connectBtn").innerText = addr.substring(0,6) + "..." + addr.substring(38);
-                
-                // Link Gen
-                const currentUrl = window.location.origin + window.location.pathname;
-                document.getElementById("refLinkDisplay").value = currentUrl + "?ref=" + addr;
-                
-                loadDashboard();
-            } catch (err) {
-                alert("Connection failed!");
-            }
-        } else {
-            window.location.href = "https://metamask.app.link/dapp/" + window.location.host;
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            await provider.send("eth_requestAccounts", []);
+            signer = provider.getSigner();
+            const addr = await signer.getAddress();
+            document.getElementById("connectBtn").innerText = addr.substring(0,6) + "..." + addr.substring(38);
+            document.getElementById("userStats").style.display = "grid";
+            loadDashboard();
         }
-    }
-
-    function copyRef() {
-        const copyText = document.getElementById("refLinkDisplay");
-        if(!copyText.value) return alert("Please connect wallet first!");
-        copyText.select();
-        document.execCommand("copy");
-        alert("Referral link copied!");
     }
 
     async function invest(planId) {
         if(!signer) return connectWallet();
         const amount = document.getElementById("amt" + planId).value;
-        const ref = document.getElementById("referrerInput").value || "0x0000000000000000000000000000000000000000";
-        if(!amount || amount <= 0) return alert("Invalid amount.");
-
         const amtWei = ethers.utils.parseUnits(amount, 18);
         const usdt = new ethers.Contract(usdtAddress, usdtAbi, signer);
         const platform = new ethers.Contract(contractAddress, abi, signer);
 
         try {
-            // Check USDT Balance
-            const userAddr = await signer.getAddress();
-            const balance = await usdt.balanceOf(userAddr);
-            if(balance.lt(amtWei)) return alert("Insufficient USDT balance!");
-
-            console.log("Requesting Approval...");
             const tx1 = await usdt.approve(contractAddress, amtWei);
             await tx1.wait();
-            
-            console.log("Processing Investment...");
-            // Use manual gas limit to prevent RPC errors
-            const tx2 = await platform.invest(planId, amtWei, ref, {
-                gasLimit: 350000 
-            });
+            const tx2 = await platform.invest(planId, amtWei, "0x0000000000000000000000000000000000000000", { gasLimit: 400000 });
             await tx2.wait();
-            
-            alert("Success! Trading session started.");
+            alert("Success!");
             loadDashboard();
-        } catch (e) {
-            console.error(e);
-            let msg = e.message;
-            if(e.data && e.data.message) msg = e.data.message;
-            alert("Error: " + msg);
-        }
+        } catch (e) { alert("Error: Check balance or Gas"); }
     }
 
     async function loadDashboard() {
         const platform = new ethers.Contract(contractAddress, abi, signer);
         const addr = await signer.getAddress();
         const investments = await platform.getInvestmentDetails(addr);
+        
         const container = document.getElementById("investmentsList");
         container.innerHTML = "";
 
-        if(investments.length === 0) {
-            container.innerHTML = "<p style='text-align:center; color:#555;'>No active sessions.</p>";
-            return;
-        }
+        let tInvested = 0;
+        let tWithdrawn = 0;
+        let tProfit = 0;
+        let activeCount = 0;
 
         investments.forEach((inv, index) => {
-            if(inv.withdrawn) return;
-            const div = document.createElement("div");
-            div.className = "plan-card";
-            div.style.textAlign = "left";
-            div.style.marginBottom = "15px";
-            div.style.padding = "25px";
-            
             const principal = parseFloat(ethers.utils.formatUnits(inv.amount, 18));
             const totalRet = parseFloat(ethers.utils.formatUnits(inv.totalReturn, 18));
-            const start = inv.startTime.toNumber();
-            const end = inv.endTime.toNumber();
+            const isWithdrawn = inv.withdrawn;
 
-            div.innerHTML = `
-                <div style="display:flex; justify-content:space-between; font-size:12px; font-family:'Orbitron';">
-                    <strong>SESSION #${index+1}</strong>
-                    <span id="timer-${index}" style="color:var(--orange)">CALCULATING...</span>
-                </div>
-                <div class="live-counter" id="live-${index}">0.00000000 USDT</div>
-                <button id="btn-${index}" class="btn-invest" style="display:none; background:#28a745; height:50px; margin-top:10px;" onclick="withdraw(${index})">WITHDRAW PROFITS</button>
-            `;
+            tInvested += principal;
+            if(isWithdrawn) {
+                tWithdrawn += totalRet;
+                tProfit += (totalRet - principal);
+            } else {
+                activeCount++;
+            }
+
+            const div = document.createElement("div");
+            div.className = "plan-card";
+            div.style.marginBottom = "15px";
+            div.style.padding = "20px";
+            
+            if(isWithdrawn) {
+                div.innerHTML = `
+                    <div style="display:flex; justify-content:space-between;">
+                        <strong>PLAN ${inv.planId} - COMPLETED</strong>
+                        <span class="withdrawn-tag">WITHDRAWN</span>
+                    </div>
+                    <div style="color:#666; margin-top:10px;">Returned: ${totalRet.toFixed(2)} USDT</div>
+                `;
+            } else {
+                div.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; font-size:12px;">
+                        <strong>PLAN ${inv.planId} (ACTIVE)</strong>
+                        <span id="timer-${index}" style="color:var(--orange)"></span>
+                    </div>
+                    <div class="live-counter" id="live-${index}">0.00000000</div>
+                    <button id="btn-${index}" class="btn-invest" style="display:none; background:#28a745; margin-top:10px; height:45px;" onclick="withdraw(${index})">WITHDRAW</button>
+                `;
+                
+                setInterval(() => {
+                    const now = Math.floor(Date.now() / 1000);
+                    const start = inv.startTime.toNumber();
+                    const end = inv.endTime.toNumber();
+                    if (now >= end) {
+                        document.getElementById("live-" + index).innerText = totalRet.toFixed(4) + " USDT";
+                        document.getElementById("btn-" + index).style.display = "block";
+                        document.getElementById("timer-" + index).innerText = "MATURED";
+                    } else {
+                        const elapsed = now - start;
+                        const growth = principal + ((totalRet - principal) / (end - start)) * elapsed;
+                        document.getElementById("live-" + index).innerText = growth.toFixed(8) + " USDT";
+                        document.getElementById("timer-" + index).innerText = Math.floor((end - now)/60) + "m remaining";
+                    }
+                }, 1000);
+            }
             container.appendChild(div);
-
-            const timerUpdate = setInterval(() => {
-                const now = Math.floor(Date.now() / 1000);
-                const duration = end - start;
-                const elapsed = now - start;
-
-                if (now >= end) {
-                    document.getElementById("live-" + index).innerText = totalRet.toFixed(6) + " USDT";
-                    document.getElementById("btn-" + index).style.display = "block";
-                    document.getElementById("timer-" + index).innerText = "MATURED";
-                    clearInterval(timerUpdate);
-                } else {
-                    const growth = principal + ((totalRet - principal) / duration) * elapsed;
-                    document.getElementById("live-" + index).innerText = growth.toFixed(8) + " USDT";
-                    const rem = end - now;
-                    document.getElementById("timer-" + index).innerText = Math.floor(rem/60) + "m " + (rem%60) + "s REMAINING";
-                }
-            }, 1000);
         });
+
+        // Update Stats Dashboard
+        document.getElementById("totalInvested").innerText = tInvested.toFixed(2) + " USDT";
+        document.getElementById("totalWithdrawn").innerText = tWithdrawn.toFixed(2) + " USDT";
+        document.getElementById("totalProfit").innerText = "+" + tProfit.toFixed(2) + " USDT";
+        document.getElementById("activeCount").innerText = activeCount;
     }
 
     async function withdraw(index) {
@@ -432,11 +220,9 @@
         try {
             const tx = await platform.withdraw(index, { gasLimit: 200000 });
             await tx.wait();
-            alert("Success! Check your wallet.");
+            alert("Withdrawn Successfully!");
             loadDashboard();
-        } catch (e) {
-            alert("Contract might need refill or Network error.");
-        }
+        } catch (e) { alert("Contract refill needed or error."); }
     }
 </script>
 </body>
